@@ -15,6 +15,8 @@ app.use(express.json());
 import obraRoutes from '../../adapters/routes/obraRoutes';
 import colaboradorRoutes from '../../adapters/routes/colaboradorRoutes';
 import pontoRoutes from '../../adapters/routes/pontoRoutes';
+import transacaoRoutes from '../../adapters/routes/transacaoRoutes';
+import materialRoutes from '../../adapters/routes/materialRoutes';
 
 // Test Route
 app.get('/', (req, res) => {
@@ -25,6 +27,8 @@ app.get('/', (req, res) => {
 app.use('/api', obraRoutes);
 app.use('/api', colaboradorRoutes);
 app.use('/api', pontoRoutes);
+app.use('/api', transacaoRoutes);
+app.use('/api', materialRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
