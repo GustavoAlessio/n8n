@@ -1,16 +1,17 @@
 import { Router } from 'express';
 import { checkIn, checkOut, getActiveRegistros } from '../controllers/PontoController';
+import { protect } from '../middleware/authMiddleware';
 
 const router = Router();
 
 // Route for checking in
-router.post('/ponto/checkin', checkIn);
+router.post('/ponto/checkin', protect, checkIn);
 
 // Route for checking out
-router.put('/ponto/checkout/:id', checkOut);
+router.put('/ponto/checkout/:id', protect, checkOut);
 
 // Route to get all active check-ins
-router.get('/ponto/active', getActiveRegistros);
+router.get('/ponto/active', protect, getActiveRegistros);
 
 
 export default router;

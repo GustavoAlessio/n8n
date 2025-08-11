@@ -7,6 +7,7 @@ export interface IObra extends Document {
   orcamentoEstimado: number;
   prazoEntrega: Date;
   status: 'planejamento' | 'em execução' | 'concluída';
+  fotos: string[];
 }
 
 const ObraSchema: Schema = new Schema({
@@ -20,6 +21,7 @@ const ObraSchema: Schema = new Schema({
     enum: ['planejamento', 'em execução', 'concluída'],
     default: 'planejamento',
   },
+  fotos: { type: [String], default: [] },
 }, {
   timestamps: true,
 });

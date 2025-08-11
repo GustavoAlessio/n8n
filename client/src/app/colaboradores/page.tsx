@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import api from '../../services/api';
 
 // Interface for a single Collaborator
@@ -17,8 +18,15 @@ export default function ColaboradoresPage() {
   const [colaboradores, setColaboradores] = useState<IColaborador[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
     const fetchColaboradores = async () => {
       try {
         const response = await api.get('/colaboradores');
@@ -32,7 +40,7 @@ export default function ColaboradoresPage() {
     };
 
     fetchColaboradores();
-  }, []);
+  }, [router]);
 
   const handleDelete = async (id: string) => {
     if (window.confirm('Tem certeza que deseja excluir este colaborador?')) {

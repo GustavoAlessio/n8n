@@ -55,3 +55,13 @@ export const deleteObra = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Error deleting obra', error });
   }
 };
+
+// Get all completed obras
+export const getObrasConcluidas = async (req: Request, res: Response) => {
+    try {
+        const obras = await Obra.find({ status: 'concluída' });
+        res.status(200).json(obras);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching completed obras', error });
+    }
+};

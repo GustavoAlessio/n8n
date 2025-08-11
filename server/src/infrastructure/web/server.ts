@@ -12,6 +12,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+import authRoutes from '../../adapters/routes/authRoutes';
 import obraRoutes from '../../adapters/routes/obraRoutes';
 import colaboradorRoutes from '../../adapters/routes/colaboradorRoutes';
 import pontoRoutes from '../../adapters/routes/pontoRoutes';
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 });
 
 // API Routes
+app.use('/api', authRoutes); // Public routes
 app.use('/api', obraRoutes);
 app.use('/api', colaboradorRoutes);
 app.use('/api', pontoRoutes);

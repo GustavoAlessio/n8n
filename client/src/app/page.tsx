@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import api from '../services/api';
 
 // Interface to define the type for a single "Obra"
@@ -19,8 +20,15 @@ export default function Home() {
   const [obras, setObras] = useState<IObra[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
     const fetchObras = async () => {
       try {
         const response = await api.get('/obras');
@@ -34,7 +42,12 @@ export default function Home() {
     };
 
     fetchObras();
-  }, []);
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    router.push('/login');
+  };
 
   const handleDelete = async (id: string) => {
     if (window.confirm('Tem certeza que deseja excluir esta obra?')) {
@@ -60,16 +73,23 @@ export default function Home() {
     <div className="container mx-auto p-8">
       <header className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">ObraFácil - Gestão de Obras</h1>
-        <div className="flex gap-4">
-          <Link href="/colaboradores" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-            Ver Equipe
-          </Link>
-          <button
-            onClick={() => alert('Funcionalidade de adicionar nova obra a ser implementada.')}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Adicionar Nova Obra
-          </button>
+        <div className="flex gap-2 items-center">
+            <button disabled className="bg-gray-300 text-gray-500 font-bold py-2 px-4 rounded cursor-not-allowed" title="Funcionalidade a ser implementada">Exportar Relatório</button>
+            <Link href="/historico" className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                Ver Histórico
+            </Link>
+            <Link href="/colaboradores" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Ver Equipe
+            </Link>
+            <button
+                onClick={() => alert('Funcionalidade de adicionar nova obra a ser implementada.')}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+                Adicionar Nova Obra
+            </button>
+            <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                Sair
+            </button>
         </div>
       </header>
 

@@ -5,14 +5,17 @@ import {
   getObraById,
   updateObra,
   deleteObra,
+  getObrasConcluidas,
 } from '../controllers/ObraController';
+import { protect } from '../middleware/authMiddleware';
 
 const router = Router();
 
-router.post('/obras', createObra);
-router.get('/obras', getAllObras);
-router.get('/obras/:id', getObraById);
-router.put('/obras/:id', updateObra);
-router.delete('/obras/:id', deleteObra);
+router.post('/obras', protect, createObra);
+router.get('/obras', protect, getAllObras);
+router.get('/obras/concluidas', protect, getObrasConcluidas);
+router.get('/obras/:id', protect, getObraById);
+router.put('/obras/:id', protect, updateObra);
+router.delete('/obras/:id', protect, deleteObra);
 
 export default router;

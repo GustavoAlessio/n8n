@@ -6,13 +6,14 @@ import {
   updateColaborador,
   deleteColaborador,
 } from '../controllers/ColaboradorController';
+import { protect } from '../middleware/authMiddleware';
 
 const router = Router();
 
-router.post('/colaboradores', createColaborador);
-router.get('/colaboradores', getAllColaboradores);
-router.get('/colaboradores/:id', getColaboradorById);
-router.put('/colaboradores/:id', updateColaborador);
-router.delete('/colaboradores/:id', deleteColaborador);
+router.post('/colaboradores', protect, createColaborador);
+router.get('/colaboradores', protect, getAllColaboradores);
+router.get('/colaboradores/:id', protect, getColaboradorById);
+router.put('/colaboradores/:id', protect, updateColaborador);
+router.delete('/colaboradores/:id', protect, deleteColaborador);
 
 export default router;

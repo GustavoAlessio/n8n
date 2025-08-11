@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import api from '../../../services/api';
 
@@ -68,6 +68,7 @@ type Tab = 'ponto' | 'financeiro' | 'materiais' | 'tarefas';
 // --- COMPONENT ---
 export default function ObraDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const id = params.id as string;
 
   // --- STATE MANAGEMENT ---
@@ -112,8 +113,13 @@ export default function ObraDetailPage() {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+      return;
+    }
     fetchData();
-  }, [id]);
+  }, [id, router]);
 
   // --- HANDLERS ---
   const handleCheckIn = async (colaboradorId: string) => { /* ... */ };
